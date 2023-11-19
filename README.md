@@ -388,7 +388,7 @@ Source: [Webperf-Snippets](https://webperf-snippets.nucliweb.net/Loading/Fonts-P
 
 ***
 
-### 18. Get your <head> in order
+### 18. Get your ‍`<head>‍` in order
 
 Ordering elements in the <head> can impact perceived page performance.
 This script is designed to assist you in identifying elements that are out of order.
