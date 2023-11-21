@@ -30,7 +30,7 @@ javascript: (function() {
 ```
 ***
 
-### 2. Opens Google Search Console performance report and filter the current page using **"Exact URL"** filter
+### 2. Opens Google Search Console performance report and filters the current page using **"Exact URL"** filter
 > Access to the **"URL Prefix"** property within the Google Search Console account associated with the current domain is required.
 
 ```javascript
@@ -154,9 +154,9 @@ javascript: (function() {
 ```
 ***
 
-### 10. Shows the total number of elements and some other elements separtely
+### 10. Shows the total number of elements and some other elements separately
 
-When this bookmarklet executed, it displays an alert with the total number of elements and some other elements like `<h1>` to `<h6>`, `div`, `p`, `a`, `span`, `img`, `picture`, `video` and `script`.
+When this bookmarklet is executed, it displays an alert with the total number of elements and some other elements like `<h1>` to `<h6>`, `div`, `p`, `a`, `span`, `img`, `picture`, `video` and `script`.
 
 ```javascript
 javascript: (function() {
@@ -296,7 +296,28 @@ javascript:(function() {
 
 ```
 ***
-### 16. List all scripts and their loading types in the browser console
+
+### 16. Display information about web fonts used on the current webpage
+
+```javascript
+javascript:(function() {
+    var allElements = document.querySelectorAll('*');
+    var webFonts = new Set();
+    allElements.forEach(function(element) {
+        var computedStyle = window.getComputedStyle(element);
+        var fontFamily = computedStyle.fontFamily;
+        fontFamily = fontFamily.replace(/['"]/g, '');
+        if (!(/^(serif|sans-serif|monospace)$/i.test(fontFamily))) {
+            webFonts.add(fontFamily.trim());
+        }
+    });
+    var webFontsCount = webFonts.size;
+    var webFontsList = Array.from(webFonts).join('\n');
+    alert('Number of Web Fonts: ' + webFontsCount + '\n\nWeb Font Names:\n' + webFontsList);
+})();
+```
+
+### 17. List all scripts and their loading types in the browser console
 
 Scan all <scripts> in the DOM and create a table that displays whether they are loaded asynchronously, deferred, or have the type="module" attribute.
 
@@ -319,7 +340,7 @@ console.table(scriptsLoading);
 Source: [Webperf-Snippets](https://webperf-snippets.nucliweb.net/Loading/Script-Loading)
 
 ***
-### 17. List all resource hints
+### 18. List all resource hints
 
 List all "preload", "prefetch", "preconnect", "dns-prefetch", "preconnect dns-prefetch", "prerender" and "modulepreload".
   
@@ -345,7 +366,7 @@ Source: [Webperf-Snippets](https://webperf-snippets.nucliweb.net/Loading/Resourc
 
 ***
 
-### 18. List all FONTS preloaded, loaded, and used above the fold of the page
+### 19. List all FONTS preloaded, loaded, and used above the fold of the page
 
 ```javascript
 javascript:(function() {
@@ -406,7 +427,7 @@ Source: [Webperf-Snippets](https://webperf-snippets.nucliweb.net/Loading/Fonts-P
 
 ***
 
-### 18. Get your ‍`<head>‍` in order
+### 20. Get your ‍`<head>‍` in order
 
 Ordering elements in the <head> can impact perceived page performance.
 This script is designed to assist you in identifying elements that are out of order.
