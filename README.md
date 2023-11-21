@@ -159,36 +159,31 @@ javascript: (function() {
 When this bookmarklet executed, it displays an alert with the total number of elements and some other elements like `<h1>` to `<h6>`, `div`, `p`, `a`, `span`, `img`, `picture`, `video` and `script`.
 
 ```javascript
-javascript:(function() {
-  function countElements(tagName) {
-    return document.querySelectorAll(tagName).length;
-  }
-  var totalElementsCount = document.querySelectorAll('*').length;
-  var h1Count = countElements('h1');
-  var h2Count = countElements('h2');
-  var h3Count = countElements('h3');
-  var h4Count = countElements('h4');
-  var h5Count = countElements('h5');
-  var h6Count = countElements('h6');
-  var divCount = countElements('div');
-  var pCount = countElements('p');
-  var aCount = countElements('a');
-  var spanCount = countElements('span');
-  var imgCount = countElements('img');
-  var pictureCount = countElements('picture');
-  var videoCount = countElements('video');
-  var scriptCount = countElements('script');
-  var alertMessage = `
-    Total Number of Elements: ${totalElementsCount}
-    
-    Number of Specific Elements:
-    <h1>: ${h1Count}  |  <h2>: ${h2Count}  |  <h3>: ${h3Count}
-    <h4>: ${h4Count}  |  <h5>: ${h5Count}  |  <h6>: ${h6Count}
-    <div>: ${divCount}  |  <p>: ${pCount}  |  <span>: ${spanCount}  |  <a>: ${aCount}
-    <img>: ${imgCount}  |  <picture>: ${pictureCount}  |  <video>: ${videoCount}
-    <scripts>: ${scriptCount}
-  `;
-  alert(alertMessage);
+javascript: (function() {
+  var elementsCount = document.querySelectorAll('*').length;
+  var resourcesCount = window.performance.getEntries().length;
+  var totalSize = 0;
+  window.performance.getEntries().forEach(function(entry) {
+      totalSize += entry.encodedBodySize || 0;
+  });
+  var totalSizeFormatted = (totalSize / (1024 * 1024)).toFixed(2) + ' MB';
+  var metaTagsCount = document.querySelectorAll('meta').length;
+  var headingsCount = document.querySelectorAll('h1, h2, h3, h4, h5, h6').length;
+  var h1Count = document.querySelectorAll('h1').length;
+  var h2Count = document.querySelectorAll('h2').length;
+  var h3Count = document.querySelectorAll('h3').length;
+  var h4Count = document.querySelectorAll('h4').length;
+  var h5Count = document.querySelectorAll('h5').length;
+  var h6Count = document.querySelectorAll('h6').length;
+  var anchorTagsCount = document.querySelectorAll('a').length;
+  var cssTagsCount = document.querySelectorAll('link[rel="stylesheet"]').length;
+  var jsTagsCount = document.querySelectorAll('script[src]').length;
+  var canonicalTagsCount = document.querySelectorAll('link[rel="canonical"]').length;
+  var imgCount = document.querySelectorAll('img').length;
+  var pictureCount = document.querySelectorAll('picture').length;
+  var videoCount = document.querySelectorAll('video').length;
+
+  alert('Elements: ' + elementsCount + ' | ' + 'Resources: ' + resourcesCount + ' | ' + 'Size: ' + totalSizeFormatted + '\n' + 'Meta: ' + metaTagsCount + '\n' + 'Headings: ' + headingsCount + ' | ' + 'H1: ' + h1Count + ' | ' + 'H2: ' + h2Count + ' | ' + 'H3: ' + h3Count + ' | ' + 'H4: ' + h4Count + ' | ' + 'H5: ' + h5Count + ' | ' + 'H6: ' + h6Count + '\n' + 'Anchor: ' + anchorTagsCount+ '\n' + 'CSS: ' + cssTagsCount + '\n' + 'JS: ' + jsTagsCount + '\n' + 'Canonical: ' + canonicalTagsCount + '\n' + 'img: ' + imgCount + ' | ' + 'picture: ' + pictureCount + ' | ' + 'video: ' + videoCount);
 })();
 ```
 ***
@@ -255,7 +250,30 @@ javascript:(function() {
 ```
 ***
 
-### 14. Display information about the cookies set by the current webpage
+### 14. Shows title tag, meta description and meta keywords, and their number of characters
+
+```javascript
+javascript:(function() {
+    var title = document.title;
+    var metaDescription = document.querySelector('meta[name="description"]');
+    var metaKeywords = document.querySelector('meta[name="keywords"]');
+
+    var titleLength = title ? title.length : 0;
+    var descriptionLength = metaDescription ? metaDescription.content.length : 0;
+    var keywordsLength = metaKeywords ? metaKeywords.content.length : 0;
+
+    var output = 'Title: ' + title + '\nCharacters: ' + titleLength + '\n\n';
+    output += 'Meta Description: ' + (metaDescription ? metaDescription.content : 'N/A') + '\nCharacters: ' + descriptionLength + '\n\n';
+    output += 'Meta Keywords: ' + (metaKeywords ? metaKeywords.content : 'N/A') + '\nCharacters: ' + keywordsLength;
+
+    alert(output);
+})();
+
+
+```
+***
+
+### 15. Display information about the cookies set by the current webpage
 
 Displays an alert containing details about the cookies set on the current webpage.
 
@@ -278,7 +296,7 @@ javascript:(function() {
 
 ```
 ***
-### 15. List all scripts and their loading types in the browser console
+### 16. List all scripts and their loading types in the browser console
 
 Scan all <scripts> in the DOM and create a table that displays whether they are loaded asynchronously, deferred, or have the type="module" attribute.
 
@@ -301,7 +319,7 @@ console.table(scriptsLoading);
 Source: [Webperf-Snippets](https://webperf-snippets.nucliweb.net/Loading/Script-Loading)
 
 ***
-### 16. List all resource hints
+### 17. List all resource hints
 
 List all "preload", "prefetch", "preconnect", "dns-prefetch", "preconnect dns-prefetch", "prerender" and "modulepreload".
   
@@ -327,7 +345,7 @@ Source: [Webperf-Snippets](https://webperf-snippets.nucliweb.net/Loading/Resourc
 
 ***
 
-### 17. List all FONTS preloaded, loaded, and used above the fold of the page
+### 18. List all FONTS preloaded, loaded, and used above the fold of the page
 
 ```javascript
 javascript:(function() {
