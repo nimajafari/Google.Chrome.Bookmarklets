@@ -156,7 +156,7 @@ javascript: (function() {
 
 ### 10. Shows the total number of elements and some other elements separately
 
-When this bookmarklet is executed, it displays an alert with the total number of elements and some other elements like `<h1>` to `<h6>`, `div`, `p`, `a`, `span`, `img`, `picture`, `video` and `script`.
+When this bookmarklet is executed, it displays an alert with the total number of elements and some other elements like `<h1>` to `<h6>`, `CSS`, `JS`, `a`, `img`, `picture`, `video` and `canonical`.
 
 ```javascript
 javascript: (function() {
