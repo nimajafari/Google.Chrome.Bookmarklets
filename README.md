@@ -313,6 +313,7 @@ javascript:(function() {
     modalContainer.style.zIndex = '9999';
     modalContainer.style.width = '1000px';
     modalContainer.style.direction = 'ltr';
+    modalContainer.style.textAlign = 'left';
     modalContainer.style.wordWrap = 'break-word';
     var closeButton = document.createElement('button');
     closeButton.textContent = 'Close';
