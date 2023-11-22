@@ -19,7 +19,7 @@ Once you have written your bookmarklet code, you need to save it as a bookmark i
 Here are a few examples illustrating how bookmarklets can be utilized for auditing purposes. Feel free to modify or develop them.
 
 
-### 1. Opens Google Search Console performance report and filter the current page using **"URLs containing"** filter
+### 1. Opens Google Search Console performance report and filters the current page using **"URLs containing"** filter
 
  > Access to the **"URL Prefix"** property within the Google Search Console account associated with the current domain is required.
 
@@ -69,7 +69,7 @@ javascript: (function() {
 
 ### 6. Highlights all `<a>` tags on a page
 
-This bookmarklet visually highlights all anchor elements on a webpage by changing their background color to yellow, adding a blue border, and applying padding. It alerted the user before highlighting `<a>` tags and shows"Links highlighted on the page." if there is at least one `<a>` and shows "No anchor elements found on this page." if there is no `<a>` elements on the page.
+This bookmarklet visually highlights all anchor elements on a webpage by changing their background color to yellow, adding a blue border, and applying padding. It alerts the user before highlighting `<a>` tags and shows"Links highlighted on the page." if there is at least one `<a>` and shows "No anchor elements found on this page." if there is no `<a>` elements on the page.
 
 ```javascript
 javascript: (function() {
@@ -319,6 +319,9 @@ javascript:(function() {
     closeButton.style.padding = '5px 10px';
     closeButton.style.marginTop = '10px';
     closeButton.style.cursor = 'pointer';
+    closeButton.style.right = '10px';
+    closeButton.style.top = '10px';
+    closeButton.style.position = 'fixed';
     closeButton.addEventListener('click', function() {
       modalContainer.style.display = 'none';
     });
