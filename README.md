@@ -189,21 +189,22 @@ javascript: (function() {
 ```
 ***
 
-### 11. Shows the `canonical` address
+### 11. Shows the `canonical` address and meta `robots` 
 
-Displays an alert with the canonical URL of the current page.
+Displays an alert with the canonical URL and meta robots of the current page.
 
 ```javascript
 javascript:(function() {
-  var canonicalTag = document.querySelector('link[rel="canonical"]');
-  if (canonicalTag) {
-    var canonicalURL = canonicalTag.href;
-    alert('Canonical URL: ' + canonicalURL);
-  } else {
-    alert('No canonical tag found on this page! 🤔');
-  }
+    function getMetaContentByName(name) {
+        var metaTag = document.querySelector('meta[name="' + name + '"]');
+        return metaTag ? metaTag.getAttribute('content') : null;
+    }
+    var canonicalUrl = getMetaContentByName('canonical');
+    var canonicalMessage = canonicalUrl ? 'Canonical URL:' + '\n' + canonicalUrl : 'Canonical URL does not exist! 🤔';
+    var metaRobots = getMetaContentByName('robots');
+    var robotsMessage = metaRobots ? 'Meta Robots:' + '\n' + metaRobots : 'Meta Robots does not exist! 🤔';
+    alert(canonicalMessage + '\n' + '\n' + robotsMessage);
 })();
-
 ```
 ***
 
