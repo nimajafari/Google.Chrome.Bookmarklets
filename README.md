@@ -1527,6 +1527,17 @@ Source: [capo.js](https://github.com/rviscomi/capo.js)
 
 ***
 
+### 24. Open CrUX (Google Chrome UX) report for the current domain
+
+Open the CrUX report for the domain (hostname) of the current page in a new tab.
+
+```javascript
+javascript: (function() {
+    window.open(`https://lookerstudio.google.com/u/0/reporting/bbc5698d-57bb-4969-9e07-68810b9fa348/page/keDQB?params=%7B%22origin%22:%22${encodeURIComponent(window.location.hostname)}%22%7D`)
+})();
+```
+***
+
 ## Troubleshooting bookmarklets
 
 If a bookmarklet is not working properly, there are a few things you can check:
