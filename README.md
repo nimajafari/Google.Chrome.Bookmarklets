@@ -1538,6 +1538,16 @@ javascript: (function() {
 ```
 ***
 
+### 25. Open CrUX Vis report for the current domain
+
+Open the CrUX Vis report for the domain (hostname) of the current page in a new tab.
+
+```javascript
+javascript: (function() {
+  window.open(`https://cruxvis.withgoogle.com/#/?view=allmetrics&url=${encodeURIComponent(window.location.origin)}%2F&identifier=origin&device=PHONE&periodStart=0&periodEnd=-1&display=p75s`)})();
+```
+***
+
 ## Troubleshooting bookmarklets
 
 If a bookmarklet is not working properly, there are a few things you can check:
