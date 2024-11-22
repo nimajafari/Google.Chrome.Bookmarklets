@@ -208,7 +208,7 @@ javascript:(function() {
 ```
 ***
 
-### 12. Shows the numnbers and URLs of `preconnect`, `preload`, `prefetch`, and `dns-prefetch` links
+### 12. Shows the numbers and URLs of `preconnect`, `preload`, `prefetch`, and `dns-prefetch` links
 
  Shows separate alerts for the numbers and URLs of preconnect, preload, prefetch, and dns-prefetch links on the current page.
 
@@ -1545,6 +1545,16 @@ Open the CrUX Vis report for the domain (hostname) of the current page in a new 
 ```javascript
 javascript: (function() {
   window.open(`https://cruxvis.withgoogle.com/#/?view=allmetrics&url=${encodeURIComponent(window.location.origin)}%2F&identifier=origin&device=PHONE&periodStart=0&periodEnd=-1&display=p75s`)})();
+```
+***
+
+### 26. Search site:$current-domain on a new tab
+
+Open a new tab and search site:domain (hostname) of the current page in a new tab. For example, site:example.com regardless of http or https
+
+```javascript
+javascript:(function(){
+    let domain = window.location.hostname.replace('www.', '');let searchQuery = encodeURIComponent(`site:${domain}`);window.open(`https://www.google.com/search?q=${searchQuery}`, '_blank');})();
 ```
 ***
 
