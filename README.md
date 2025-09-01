@@ -75,9 +75,11 @@ This bookmarklet visually highlights all anchor elements on a webpage by changin
 javascript: (function() {
     var anchorElements = document.querySelectorAll('a');
     anchorElements.forEach(function(anchor) {
-        anchor.style.background = 'yellow';
-        anchor.style.border = '2px solid blue';
+        anchor.style.background = '#5e4899';
+        anchor.style.border = '1px solid #5e4899';
         anchor.style.padding = '2px';
+        anchor.style.borderRadius = '5px';
+        anchor.style.color = '#adf0d6';
     });
     if (anchorElements.length > 0) {
         alert('Links highlighted on the page.');
@@ -145,7 +147,7 @@ javascript: (function() {
         var headingTypeContainer = document.createElement('div');
         headingTypeContainer.style = 'position: relative; display: inline-block; margin-left: 10px;';
         var headingTypeLabel = document.createElement('div');
-        headingTypeLabel.style = 'position: absolute; top: -20px; right: 0; background-color: #000; color: #fff; padding: 5px;border-radius:5px;';
+        headingTypeLabel.style = 'position: absolute; top: -20px; right: 0; background-color: #5e4899; color: #adf0d6; padding: 5px;border-radius:5px;';
         headingTypeLabel.textContent = heading.tagName.toLowerCase();
         headingTypeContainer.appendChild(headingTypeLabel);
         heading.appendChild(headingTypeContainer);
