@@ -1,0 +1,220 @@
+{
+  "name": "SEO Bookmarklets for Google Chrome",
+  "version": "1.0.0",
+  "description": "A curated toolkit of one-click bookmarklets for technical SEO audits, on-page analysis, and web-performance inspection.",
+  "categories": [
+    {
+      "id": "google-tools",
+      "name": "Google Search & Performance Tools",
+      "icon": "🔍",
+      "description": "Open Google's testing and reporting tools pre-filled with the current page or domain.",
+      "items": [
+        {
+          "name": "GSC — URLs Containing",
+          "file": "bookmarklets/google-tools/gsc-urls-containing.js",
+          "description": "Open the Search Console performance report filtered to the current page with the \"URLs containing\" filter.",
+          "output": "new-tab",
+          "note": "Requires access to the matching URL-prefix property in Google Search Console."
+        },
+        {
+          "name": "GSC — Exact URL",
+          "file": "bookmarklets/google-tools/gsc-exact-url.js",
+          "description": "Open the Search Console performance report filtered to the current page with the \"Exact URL\" filter.",
+          "output": "new-tab",
+          "note": "Requires access to the matching URL-prefix property in Google Search Console."
+        },
+        {
+          "name": "Rich Results Test",
+          "file": "bookmarklets/google-tools/rich-results-test.js",
+          "description": "Send the current URL to Google's Rich Results Test.",
+          "output": "new-tab"
+        },
+        {
+          "name": "AMP Test",
+          "file": "bookmarklets/google-tools/amp-test.js",
+          "description": "Send the current URL to Google's AMP Test.",
+          "output": "new-tab"
+        },
+        {
+          "name": "PageSpeed Insights",
+          "file": "bookmarklets/google-tools/pagespeed-insights.js",
+          "description": "Run PageSpeed Insights against the current URL.",
+          "output": "new-tab"
+        },
+        {
+          "name": "CrUX Report",
+          "file": "bookmarklets/google-tools/crux-report.js",
+          "description": "Open the Chrome UX Report dashboard for the current domain.",
+          "output": "new-tab"
+        },
+        {
+          "name": "CrUX Vis Report",
+          "file": "bookmarklets/google-tools/crux-vis-report.js",
+          "description": "Open the CrUX Vis visualisation for the current origin.",
+          "output": "new-tab"
+        },
+        {
+          "name": "site: Search",
+          "file": "bookmarklets/google-tools/site-search.js",
+          "description": "Run a site: search on Google for the current domain in a new tab.",
+          "output": "new-tab"
+        }
+      ]
+    },
+    {
+      "id": "on-page-seo",
+      "name": "On-Page SEO",
+      "icon": "📝",
+      "description": "Inspect the on-page signals that shape how a page is understood and indexed.",
+      "items": [
+        {
+          "name": "Canonical & Meta Robots",
+          "file": "bookmarklets/on-page-seo/canonical-and-robots.js",
+          "description": "Show the canonical URL and meta robots directive of the current page.",
+          "output": "alert"
+        },
+        {
+          "name": "Meta Description",
+          "file": "bookmarklets/on-page-seo/meta-description.js",
+          "description": "Show the meta description of the current page.",
+          "output": "alert"
+        },
+        {
+          "name": "Title, Description & Keywords",
+          "file": "bookmarklets/on-page-seo/title-description-keywords.js",
+          "description": "Show the title tag, meta description, and meta keywords with their character counts.",
+          "output": "alert"
+        },
+        {
+          "name": "Heading Levels",
+          "file": "bookmarklets/on-page-seo/heading-levels.js",
+          "description": "Label every heading on the page with its tag (h1–h6) so you can audit document outline.",
+          "output": "overlay"
+        },
+        {
+          "name": "Image Alt Text",
+          "file": "bookmarklets/on-page-seo/image-alt-text.js",
+          "description": "Overlay the alt attribute of every image directly on the page.",
+          "output": "overlay"
+        },
+        {
+          "name": "<br> Tags in Content",
+          "file": "bookmarklets/on-page-seo/br-tags.js",
+          "description": "Count <br> tags and highlight the 20 characters before and after each one.",
+          "output": "overlay"
+        },
+        {
+          "name": "Page Element Overview",
+          "file": "bookmarklets/on-page-seo/page-element-overview.js",
+          "description": "Summarise total elements, resources, page weight, headings, links, CSS/JS, canonical, images and more.",
+          "output": "alert"
+        }
+      ]
+    },
+    {
+      "id": "links",
+      "name": "Links",
+      "icon": "🔗",
+      "description": "Visualise and count the internal and external links on a page.",
+      "items": [
+        {
+          "name": "Highlight Links",
+          "file": "bookmarklets/links/highlight-links.js",
+          "description": "Highlight every anchor element on the page.",
+          "output": "overlay"
+        },
+        {
+          "name": "Count Links",
+          "file": "bookmarklets/links/count-links.js",
+          "description": "Count all links and colour-code each one with an index attribute.",
+          "output": "overlay"
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "name": "Web Performance",
+      "icon": "⚡",
+      "description": "Inspect resource hints, script loading, fonts, and <head> ordering.",
+      "items": [
+        {
+          "name": "Resource Hints (Detail)",
+          "file": "bookmarklets/performance/resource-hints-detail.js",
+          "description": "Show the count and URLs of preconnect, dns-prefetch, preload, and prefetch links.",
+          "output": "alert"
+        },
+        {
+          "name": "Resource Hints (List)",
+          "file": "bookmarklets/performance/resource-hints-list.js",
+          "description": "List every resource hint type and whether the page uses it.",
+          "output": "console"
+        },
+        {
+          "name": "Script Loading Types",
+          "file": "bookmarklets/performance/script-loading-types.js",
+          "description": "Table every <script src> showing async, defer, module, and render-blocking status.",
+          "output": "console"
+        },
+        {
+          "name": "Web Fonts in Use",
+          "file": "bookmarklets/performance/web-fonts-in-use.js",
+          "description": "List the web fonts applied across the page.",
+          "output": "alert"
+        },
+        {
+          "name": "Fonts Above the Fold",
+          "file": "bookmarklets/performance/fonts-above-the-fold.js",
+          "description": "List fonts preloaded, loaded, and actually used above the fold.",
+          "output": "console"
+        },
+        {
+          "name": "<head> Order (Capo)",
+          "file": "bookmarklets/performance/head-order-capo.js",
+          "description": "Visualise the order of <head> elements and flag what is out of order. By rviscomi/capo.js.",
+          "output": "console",
+          "source": "https://github.com/rviscomi/capo.js"
+        }
+      ]
+    },
+    {
+      "id": "technical",
+      "name": "Technical & Privacy",
+      "icon": "🛠️",
+      "description": "Read HTTP response headers and inspect cookies set by the page.",
+      "items": [
+        {
+          "name": "HTTP Response Headers",
+          "file": "bookmarklets/technical/http-response-headers.js",
+          "description": "Display the HTTP response headers for the current URL in a modal.",
+          "output": "modal"
+        },
+        {
+          "name": "Cookies (Alert)",
+          "file": "bookmarklets/technical/cookies-alert.js",
+          "description": "Show all cookies set by the current page in an alert.",
+          "output": "alert"
+        },
+        {
+          "name": "Cookies (Modal)",
+          "file": "bookmarklets/technical/cookies-modal.js",
+          "description": "Show all cookies set by the current page in a closable modal.",
+          "output": "modal"
+        }
+      ]
+    },
+    {
+      "id": "accessibility",
+      "name": "Accessibility & Design",
+      "icon": "🎨",
+      "description": "Inspect typography and colour contrast of selected text.",
+      "items": [
+        {
+          "name": "Text Font & Contrast",
+          "file": "bookmarklets/accessibility/text-font-and-contrast.js",
+          "description": "Show the font-family, size, weight, colour, and contrast ratio of the selected text.",
+          "output": "alert"
+        }
+      ]
+    }
+  ]
+}

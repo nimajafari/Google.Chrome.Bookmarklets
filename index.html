@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEO Bookmarklets for Chrome — Install</title>
+  <meta name="description" content="A curated toolkit of one-click bookmarklets for technical SEO audits, on-page analysis, and web-performance inspection. Drag any tool to your bookmarks bar to install." />
+  <meta name="author" content="Nima Jafari" />
+  <meta name="color-scheme" content="light dark" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="SEO Bookmarklets for Chrome" />
+  <meta property="og:description" content="One-click bookmarklets for technical SEO audits, on-page analysis, and web-performance inspection." />
+
+  <style>
+    :root {
+      --brand: #5e4899;
+      --brand-2: #adf0d6;
+      --bg: #f7f7fb;
+      --surface: #ffffff;
+      --text: #1c1b22;
+      --muted: #6b6878;
+      --border: #e6e4ee;
+      --shadow: 0 1px 2px rgba(28, 27, 34, 0.06), 0 8px 24px rgba(28, 27, 34, 0.06);
+      --radius: 14px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #15141b;
+        --surface: #1f1d28;
+        --text: #f3f1f9;
+        --muted: #a39fb3;
+        --border: #322f3e;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--brand); }
+
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+    header.hero {
+      background:
+        radial-gradient(1200px 400px at 80% -10%, rgba(173, 240, 214, 0.22), transparent 60%),
+        linear-gradient(135deg, var(--brand), #463673);
+      color: #fff;
+      padding: 64px 0 56px;
+    }
+    header.hero .wrap { display: flex; flex-direction: column; gap: 18px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--brand-2);
+    }
+    header.hero h1 { margin: 0; font-size: clamp(28px, 5vw, 44px); line-height: 1.1; letter-spacing: -0.02em; }
+    header.hero p { margin: 0; max-width: 60ch; color: rgba(255, 255, 255, 0.88); font-size: 18px; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255, 255, 255, 0.14); color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 500;
+      text-decoration: none;
+    }
+    .pill:hover { background: rgba(255, 255, 255, 0.24); }
+
+    .howto {
+      margin: -28px auto 0; position: relative; z-index: 2;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 22px 24px;
+    }
+    .howto h2 { margin: 0 0 10px; font-size: 16px; }
+    .howto ol { margin: 0; padding-left: 20px; color: var(--muted); }
+    .howto ol li { margin: 4px 0; }
+    .howto strong { color: var(--text); }
+
+    main { padding: 40px 0 24px; }
+    .category { margin-top: 40px; }
+    .category-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .category-head h2 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+    .category-head .count { color: var(--muted); font-size: 14px; font-weight: 500; }
+    .category > p { margin: 6px 0 0; color: var(--muted); }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-top: 18px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .badge {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase;
+      padding: 4px 9px; border-radius: 999px; white-space: nowrap;
+      background: color-mix(in srgb, var(--brand) 12%, transparent); color: var(--brand);
+      border: 1px solid color-mix(in srgb, var(--brand) 22%, transparent);
+    }
+    @supports not (background: color-mix(in srgb, red, blue)) {
+      .badge { background: rgba(94, 72, 153, 0.12); border-color: rgba(94, 72, 153, 0.25); }
+    }
+    .card h3 { margin: 0; font-size: 16px; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .card .note { font-size: 12.5px; color: var(--muted); border-left: 2px solid var(--border); padding-left: 10px; }
+    .card-actions { margin-top: auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .install {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--brand); color: #fff; text-decoration: none;
+      padding: 9px 16px; border-radius: 10px; font-weight: 600; font-size: 14px;
+      cursor: grab; border: none;
+    }
+    .install:hover { background: #4d3a82; }
+    .install:active { cursor: grabbing; }
+    .install svg { width: 15px; height: 15px; }
+    .source-link { font-size: 13px; text-decoration: none; color: var(--muted); }
+    .source-link:hover { color: var(--brand); text-decoration: underline; }
+
+    .status {
+      margin-top: 20px; padding: 14px 16px; border-radius: 12px;
+      background: color-mix(in srgb, var(--brand) 8%, transparent);
+      border: 1px solid var(--border); color: var(--muted); font-size: 14px;
+    }
+    .status.error { background: rgba(220, 80, 80, 0.1); border-color: rgba(220, 80, 80, 0.3); color: #c0392b; }
+
+    footer {
+      margin-top: 56px; border-top: 1px solid var(--border);
+      padding: 28px 0 48px; color: var(--muted); font-size: 14px;
+    }
+    footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    footer a { text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <span class="eyebrow">SEO Toolkit · Chrome Bookmarklets</span>
+      <h1>One-click bookmarklets for technical SEO</h1>
+      <p>A curated set of tools for technical audits, on-page analysis, and web-performance inspection — no extensions, no tracking, just JavaScript you can read. Drag any tool to your bookmarks bar to install it.</p>
+      <div class="hero-meta">
+        <a class="pill" href="https://github.com/nimajafari/Google.Chrome.Bookmarklets" id="repo-link">★ View on GitHub</a>
+        <span class="pill" id="tool-count">— tools</span>
+        <span class="pill">MIT Licensed</span>
+        <span class="pill">By Nima Jafari</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="howto">
+      <h2>How to install</h2>
+      <ol>
+        <li>Make sure your browser's <strong>bookmarks bar is visible</strong> (Chrome: <strong>⌘/Ctrl + Shift + B</strong>).</li>
+        <li><strong>Drag</strong> any purple <strong>Install</strong> button up to your bookmarks bar.</li>
+        <li>Open any web page and <strong>click the bookmark</strong> to run the tool.</li>
+      </ol>
+    </section>
+  </div>
+
+  <main class="wrap">
+    <div id="catalog"></div>
+    <div id="status" class="status">Loading the toolkit…</div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Built and maintained by <strong>Nima Jafari</strong>.</span>
+      <span>Released under the MIT License.</span>
+    </div>
+  </footer>
+
+  <script>
+    const DRAG_ICON =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3"/><path d="M9 5l3-3 3 3"/><path d="M15 19l-3 3-3-3"/><path d="M19 9l3 3-3 3"/><path d="M2 12h20"/><path d="M12 2v20"/></svg>';
+
+    const BADGE_LABELS = {
+      "new-tab": "Opens tab",
+      "alert": "Alert",
+      "console": "Console",
+      "overlay": "On-page",
+      "modal": "Modal",
+    };
+
+    function el(tag, attrs = {}, ...children) {
+      const node = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) {
+        if (k === "class") node.className = v;
+        else if (k === "html") node.innerHTML = v;
+        else node.setAttribute(k, v);
+      }
+      for (const child of children) {
+        node.append(child instanceof Node ? child : document.createTextNode(child));
+      }
+      return node;
+    }
+
+    async function build() {
+      const status = document.getElementById("status");
+      const catalog = document.getElementById("catalog");
+
+      let manifest;
+      try {
+        const res = await fetch("bookmarklets/manifest.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        manifest = await res.json();
+      } catch (err) {
+        status.className = "status error";
+        status.textContent =
+          "Could not load the toolkit. If you opened this file directly from disk, browsers block fetch() over file://. View it through GitHub Pages or a local web server (e.g. `npx serve`).";
+        return;
+      }
+
+      let total = 0;
+
+      for (const cat of manifest.categories) {
+        const section = el("section", { class: "category", id: cat.id });
+        section.append(
+          el("div", { class: "category-head" },
+            el("h2", {}, `${cat.icon || ""} ${cat.name}`.trim()),
+            el("span", { class: "count" }, `${cat.items.length} tool${cat.items.length === 1 ? "" : "s"}`)
+          )
+        );
+        if (cat.description) section.append(el("p", {}, cat.description));
+
+        const grid = el("div", { class: "grid" });
+
+        for (const item of cat.items) {
+          total++;
+          const card = el("div", { class: "card" });
+
+          card.append(
+            el("div", { class: "card-top" },
+              el("h3", {}, item.name),
+              el("span", { class: "badge" }, BADGE_LABELS[item.output] || item.output || "Tool")
+            ),
+            el("p", {}, item.description)
+          );
+          if (item.note) card.append(el("p", { class: "note" }, item.note));
+
+          const installBtn = el("a", { class: "install", title: "Drag me to your bookmarks bar", html: DRAG_ICON + "<span>Install</span>" });
+          installBtn.href = "#";
+
+          const actions = el("div", { class: "card-actions" }, installBtn,
+            el("a", { class: "source-link", href: item.file, target: "_blank", rel: "noopener" }, "View source"));
+          card.append(actions);
+          grid.append(card);
+
+          // Fetch the actual bookmarklet source and wire it up as the draggable href.
+          fetch(item.file, { cache: "no-store" })
+            .then((r) => (r.ok ? r.text() : Promise.reject()))
+            .then((code) => {
+              code = code.trim();
+              if (!/^javascript:/i.test(code)) code = "javascript:" + code;
+              installBtn.setAttribute("href", code);
+              // Name the bookmark when dragged.
+              installBtn.textContent = "";
+              installBtn.innerHTML = DRAG_ICON + "<span>" + item.name.replace(/[<>&]/g, "") + "</span>";
+            })
+            .catch(() => {
+              installBtn.innerHTML = DRAG_ICON + "<span>Unavailable</span>";
+              installBtn.style.opacity = "0.5";
+              installBtn.style.cursor = "not-allowed";
+            });
+        }
+
+        section.append(grid);
+        catalog.append(section);
+      }
+
+      document.getElementById("tool-count").textContent = total + " tools";
+      status.remove();
+    }
+
+    build();
+  </script>
+</body>
+</html>
