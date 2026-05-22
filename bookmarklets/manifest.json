@@ -172,6 +172,7 @@
           "file": "bookmarklets/performance/head-order-capo.js",
           "description": "Visualise the order of <head> elements and flag what is out of order. By rviscomi/capo.js.",
           "output": "console",
+          "usage": "snippet",
           "source": "https://github.com/rviscomi/capo.js"
         }
       ]

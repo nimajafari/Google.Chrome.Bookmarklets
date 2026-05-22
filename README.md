@@ -61,7 +61,15 @@ Open the **[install page](https://nimajafari.github.io/Google.Chrome.Bookmarklet
 2. Create a new bookmark in Chrome.
 3. Paste the code into the bookmark's **URL** field, give it a name, and save.
 
-> 💡 A few tools (those marked _Console_) print their output to the browser's DevTools Console. Open it with **⌘/Ctrl + Shift + J** to see the results.
+### Option 3 — DevTools Snippets (for large tools)
+
+Chrome stores a bookmarklet as the bookmark's URL, and very long scripts get truncated. Tools marked **_DevTools snippet_** (e.g. the Capo `<head>` order tool) are too large to be reliable bookmarklets — run them as a snippet instead:
+
+1. Open DevTools (**F12** or **⌘/Ctrl + Shift + I**) → **Sources** → **Snippets** → **+ New snippet**.
+2. Paste the code and press **⌘/Ctrl + Enter** to run it (or right-click → *Run*).
+3. Alternatively, paste the code straight into the **Console** (**⌘/Ctrl + Shift + J**).
+
+> 💡 Tools marked _Console_ print their output to the DevTools Console. Open it with **⌘/Ctrl + Shift + J** to see the results.
 
 ---
 
@@ -609,11 +617,13 @@ javascript:(function() {
 
 Source: [Webperf-Snippets](https://webperf-snippets.nucliweb.net/Loading/Fonts-Preloaded-Loaded-and-used-above-the-fold)
 
-#### 23. `<head>` Order — Capo _(Console)_
+#### 23. `<head>` Order — Capo _(DevTools snippet)_
 
 Visualises the order of `<head>` elements and flags anything out of order, since `<head>` ordering can affect perceived performance.
 
-📄 [`bookmarklets/performance/head-order-capo.js`](bookmarklets/performance/head-order-capo.js) — the full minified source is in the file. Run it from your bookmarks bar, then open the Console (**⌘/Ctrl + Shift + J**) to see the result.
+📄 [`bookmarklets/performance/head-order-capo.js`](bookmarklets/performance/head-order-capo.js)
+
+> ⚠️ At ~30 KB, this script is **too large to store reliably as a bookmark URL** in Chrome. Run it as a **DevTools Snippet** instead (see [Option 3](#option-3--devtools-snippets-for-large-tools)), then read the output in the Console (**⌘/Ctrl + Shift + J**). The full source is in the linked file.
 
 Source: [capo.js](https://github.com/rviscomi/capo.js) by Rick Viscomi.
 

@@ -122,6 +122,9 @@
     }
     .install:hover { background: #4d3a82; }
     .install:active { cursor: grabbing; }
+    .install.copy { cursor: pointer; font-family: inherit; }
+    .install.copy:active { cursor: pointer; }
+    .badge-snippet { background: rgba(214, 158, 46, 0.14); color: #b7791f; border: 1px solid rgba(214, 158, 46, 0.4); }
     .install svg { width: 15px; height: 15px; }
     .source-link { font-size: 13px; text-decoration: none; color: var(--muted); }
     .source-link:hover { color: var(--brand); text-decoration: underline; }
@@ -184,13 +187,31 @@
     const DRAG_ICON =
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3"/><path d="M9 5l3-3 3 3"/><path d="M15 19l-3 3-3-3"/><path d="M19 9l3 3-3 3"/><path d="M2 12h20"/><path d="M12 2v20"/></svg>';
 
+    const COPY_ICON =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+
     const BADGE_LABELS = {
       "new-tab": "Opens tab",
       "alert": "Alert",
       "console": "Console",
       "overlay": "On-page",
       "modal": "Modal",
+      "snippet": "DevTools snippet",
     };
+
+    function copyText(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+      return new Promise((resolve, reject) => {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); resolve(); } catch (e) { reject(e); }
+        document.body.removeChild(ta);
+      });
+    }
 
     function el(tag, attrs = {}, ...children) {
       const node = document.createElement(tag);
@@ -239,38 +260,56 @@
           total++;
           const card = el("div", { class: "card" });
 
+          const isSnippet = item.usage === "snippet";
+
           card.append(
             el("div", { class: "card-top" },
               el("h3", {}, item.name),
-              el("span", { class: "badge" }, BADGE_LABELS[item.output] || item.output || "Tool")
+              el("span", { class: "badge" + (isSnippet ? " badge-snippet" : "") },
+                isSnippet ? "DevTools snippet" : (BADGE_LABELS[item.output] || item.output || "Tool"))
             ),
             el("p", {}, item.description)
           );
           if (item.note) card.append(el("p", { class: "note" }, item.note));
+          if (isSnippet) card.append(el("p", { class: "note" },
+            "Too large for a bookmark URL. Use it as a DevTools Snippet (Sources → Snippets → New) or paste it into the Console."));
 
-          const installBtn = el("a", { class: "install", title: "Drag me to your bookmarks bar", html: DRAG_ICON + "<span>Install</span>" });
-          installBtn.href = "#";
+          let actionBtn;
+          if (isSnippet) {
+            actionBtn = el("button", { class: "install copy", title: "Copy the code to your clipboard", html: COPY_ICON + "<span>Copy code</span>" });
+          } else {
+            actionBtn = el("a", { class: "install", title: "Drag me to your bookmarks bar", html: DRAG_ICON + "<span>Install</span>" });
+            actionBtn.href = "#";
+          }
 
-          const actions = el("div", { class: "card-actions" }, installBtn,
+          const actions = el("div", { class: "card-actions" }, actionBtn,
             el("a", { class: "source-link", href: item.file, target: "_blank", rel: "noopener" }, "View source"));
           card.append(actions);
           grid.append(card);
 
-          // Fetch the actual bookmarklet source and wire it up as the draggable href.
+          // Fetch the actual source and wire up the button (drag-to-install, or copy for snippets).
           fetch(item.file, { cache: "no-store" })
             .then((r) => (r.ok ? r.text() : Promise.reject()))
             .then((code) => {
               code = code.trim();
-              if (!/^javascript:/i.test(code)) code = "javascript:" + code;
-              installBtn.setAttribute("href", code);
-              // Name the bookmark when dragged.
-              installBtn.textContent = "";
-              installBtn.innerHTML = DRAG_ICON + "<span>" + item.name.replace(/[<>&]/g, "") + "</span>";
+              if (isSnippet) {
+                const raw = code.replace(/^javascript:/i, "").trim();
+                actionBtn.onclick = () => {
+                  copyText(raw).then(() => {
+                    actionBtn.innerHTML = COPY_ICON + "<span>Copied!</span>";
+                    setTimeout(() => { actionBtn.innerHTML = COPY_ICON + "<span>Copy code</span>"; }, 1500);
+                  });
+                };
+              } else {
+                if (!/^javascript:/i.test(code)) code = "javascript:" + code;
+                actionBtn.setAttribute("href", code);
+                actionBtn.innerHTML = DRAG_ICON + "<span>" + item.name.replace(/[<>&]/g, "") + "</span>";
+              }
             })
             .catch(() => {
-              installBtn.innerHTML = DRAG_ICON + "<span>Unavailable</span>";
-              installBtn.style.opacity = "0.5";
-              installBtn.style.cursor = "not-allowed";
+              actionBtn.innerHTML = (isSnippet ? COPY_ICON : DRAG_ICON) + "<span>Unavailable</span>";
+              actionBtn.style.opacity = "0.5";
+              actionBtn.style.cursor = "not-allowed";
             });
         }
 
