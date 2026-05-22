@@ -215,6 +215,91 @@
           "output": "alert"
         }
       ]
+    },
+    {
+      "id": "structured-data",
+      "name": "Structured Data & Social",
+      "icon": "🧩",
+      "description": "Inspect schema markup and how the page appears when shared on social platforms.",
+      "items": [
+        {
+          "name": "Schema / JSON-LD Viewer",
+          "file": "bookmarklets/structured-data/schema-viewer.js",
+          "description": "Extract and pretty-print all JSON-LD on the page, list the schema @types found, and open Google's Rich Results Test.",
+          "output": "modal"
+        },
+        {
+          "name": "Social Preview (OG & X)",
+          "file": "bookmarklets/structured-data/social-preview.js",
+          "description": "Render an Open Graph and X/Twitter card preview from the page's meta tags, flagging missing images or cards.",
+          "output": "modal"
+        }
+      ]
+    },
+    {
+      "id": "indexability",
+      "name": "Indexability & Crawl",
+      "icon": "🤖",
+      "description": "Check whether a page can be indexed and quickly reach the files crawlers rely on.",
+      "items": [
+        {
+          "name": "Indexability Snapshot",
+          "file": "bookmarklets/indexability/indexability-snapshot.js",
+          "description": "Combine meta robots, the X-Robots-Tag header, and canonical into a single indexable yes/no verdict.",
+          "output": "alert"
+        },
+        {
+          "name": "GSC URL Inspection",
+          "file": "bookmarklets/indexability/gsc-url-inspection.js",
+          "description": "Open Google Search Console's URL Inspection tool for the exact current page.",
+          "output": "new-tab",
+          "note": "Requires access to the matching property in Google Search Console."
+        },
+        {
+          "name": "Open robots.txt",
+          "file": "bookmarklets/indexability/robots-txt.js",
+          "description": "Open /robots.txt for the current domain.",
+          "output": "new-tab"
+        },
+        {
+          "name": "Open sitemap.xml",
+          "file": "bookmarklets/indexability/sitemap-xml.js",
+          "description": "Open /sitemap.xml for the current domain.",
+          "output": "new-tab"
+        },
+        {
+          "name": "Open llms.txt",
+          "file": "bookmarklets/indexability/llms-txt.js",
+          "description": "Open /llms.txt for the current domain (the emerging standard for AI crawlers).",
+          "output": "new-tab"
+        },
+        {
+          "name": "Wayback Machine",
+          "file": "bookmarklets/indexability/wayback-machine.js",
+          "description": "Open the current URL's archive history on the Internet Archive.",
+          "output": "new-tab"
+        }
+      ]
+    },
+    {
+      "id": "performance-live",
+      "name": "Performance — Live Metrics",
+      "icon": "📈",
+      "description": "Measure runtime performance directly in the page as it loads and as you interact.",
+      "items": [
+        {
+          "name": "Core Web Vitals Overlay",
+          "file": "bookmarklets/performance-live/core-web-vitals-overlay.js",
+          "description": "Pin a live LCP / CLS / INP readout to the page, colour-rated against Google's thresholds. Click again to dismiss.",
+          "output": "overlay"
+        },
+        {
+          "name": "Render-Blocking Resources",
+          "file": "bookmarklets/performance-live/render-blocking-resources.js",
+          "description": "Find render-blocking CSS and synchronous scripts in the <head> and list them in the Console.",
+          "output": "alert"
+        }
+      ]
     }
   ]
 }

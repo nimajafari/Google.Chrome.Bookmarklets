@@ -5,7 +5,7 @@
 **One-click tools for technical SEO audits, on-page analysis, and web-performance inspection — straight from your bookmarks bar.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-5e4899.svg)](LICENSE)
-[![Bookmarklets](https://img.shields.io/badge/tools-27-adf0d6.svg)](#-the-toolkit)
+[![Bookmarklets](https://img.shields.io/badge/tools-37-adf0d6.svg)](#-the-toolkit)
 [![No dependencies](https://img.shields.io/badge/dependencies-none-5e4899.svg)](#)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-adf0d6.svg)](CONTRIBUTING.md)
 [![Made for SEO](https://img.shields.io/badge/made%20for-SEO-5e4899.svg)](#)
@@ -16,7 +16,7 @@
 
 ---
 
-A curated, dependency-free collection of **27 bookmarklets** that turn any web page into an instant SEO and performance audit surface. No browser extensions, no tracking, no build step — every tool is a single piece of readable JavaScript you can inspect, copy, and adapt.
+A curated, dependency-free collection of **37 bookmarklets** that turn any web page into an instant SEO and performance audit surface. No browser extensions, no tracking, no build step — every tool is a single piece of readable JavaScript you can inspect, copy, and adapt.
 
 Built for SEO consultants, technical SEOs, and anyone teaching or learning how the web is put together.
 
@@ -31,6 +31,9 @@ Built for SEO consultants, technical SEOs, and anyone teaching or learning how t
   - [⚡ Web Performance](#-web-performance)
   - [🛠️ Technical & Privacy](#️-technical--privacy)
   - [🎨 Accessibility & Design](#-accessibility--design)
+  - [🧩 Structured Data & Social](#-structured-data--social)
+  - [🤖 Indexability & Crawl](#-indexability--crawl)
+  - [📈 Performance — Live Metrics](#-performance--live-metrics)
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [Author](#author)
@@ -807,6 +810,304 @@ javascript:(function() {
 
         return contrastRatio.toFixed(2);
     }
+})();
+```
+
+---
+
+### 🧩 Structured Data & Social
+
+Inspect schema markup and how the page appears when shared on social platforms.
+
+#### 28. Schema / JSON-LD Viewer
+
+Extracts and pretty-prints all JSON-LD on the page in a modal, lists the schema `@type`s found, and gives you a button to open Google's Rich Results Test.
+
+📄 [`bookmarklets/structured-data/schema-viewer.js`](bookmarklets/structured-data/schema-viewer.js)
+
+```javascript
+javascript:(function() {
+    var blocks = document.querySelectorAll('script[type="application/ld+json"]');
+    if (!blocks.length) {
+        alert('No JSON-LD structured data found on this page. 🤔');
+        return;
+    }
+    var types = [];
+    var pretty = [];
+    blocks.forEach(function(b, i) {
+        var raw = b.textContent.trim();
+        try {
+            var data = JSON.parse(raw);
+            (function collect(node) {
+                if (Array.isArray(node)) node.forEach(collect);
+                else if (node && typeof node === 'object') {
+                    if (node['@type']) types.push([].concat(node['@type']).join(', '));
+                    Object.values(node).forEach(collect);
+                }
+            })(data);
+            pretty.push('/* Block ' + (i + 1) + ' */\n' + JSON.stringify(data, null, 2));
+        } catch (e) {
+            pretty.push('/* Block ' + (i + 1) + ' — invalid JSON */\n' + raw);
+        }
+    });
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2147483647;display:flex;align-items:center;justify-content:center;';
+    var modal = document.createElement('div');
+    modal.style.cssText = 'background:#fff;color:#1c1b22;max-width:800px;width:90%;max-height:80vh;overflow:auto;border-radius:12px;padding:20px;font-family:monospace;text-align:left;direction:ltr;';
+    var head = document.createElement('div');
+    head.style.cssText = 'font-family:sans-serif;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;';
+    var title = document.createElement('strong');
+    title.textContent = blocks.length + ' JSON-LD block(s) — types: ' + (types.length ? Array.from(new Set(types)).join(', ') : 'none');
+    var btns = document.createElement('div');
+    var validate = document.createElement('button');
+    validate.textContent = 'Open Rich Results Test';
+    validate.style.cssText = 'cursor:pointer;margin-right:8px;padding:6px 10px;';
+    validate.onclick = function() {
+        window.open('https://search.google.com/test/rich-results?url=' + encodeURIComponent(window.location.href));
+    };
+    var close = document.createElement('button');
+    close.textContent = 'Close';
+    close.style.cssText = 'cursor:pointer;padding:6px 10px;';
+    close.onclick = function() {
+        overlay.remove();
+    };
+    btns.appendChild(validate);
+    btns.appendChild(close);
+    head.appendChild(title);
+    head.appendChild(btns);
+    var pre = document.createElement('pre');
+    pre.style.cssText = 'white-space:pre-wrap;word-break:break-word;margin:0;';
+    pre.textContent = pretty.join('\n\n');
+    modal.appendChild(head);
+    modal.appendChild(pre);
+    overlay.appendChild(modal);
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) overlay.remove();
+    });
+    document.body.appendChild(overlay);
+})();
+```
+
+#### 29. Social Preview (Open Graph & X) _(Modal)_
+
+Renders an Open Graph and X/Twitter card preview from the page's meta tags, flagging a missing `og:image` or `twitter:card`. The full source (with HTML escaping) is in the file:
+
+📄 [`bookmarklets/structured-data/social-preview.js`](bookmarklets/structured-data/social-preview.js)
+
+---
+
+### 🤖 Indexability & Crawl
+
+Check whether a page can be indexed and quickly reach the files crawlers rely on.
+
+#### 30. Indexability Snapshot
+
+Combines the meta robots directive, the `X-Robots-Tag` response header, and the canonical (self-referencing vs. pointing elsewhere) into a single "indexable: yes/no — why" verdict.
+
+📄 [`bookmarklets/indexability/indexability-snapshot.js`](bookmarklets/indexability/indexability-snapshot.js)
+
+```javascript
+javascript:(function() {
+    var metaRobots = (document.querySelector('meta[name="robots"]') || {}).content || '';
+    var canonical = (document.querySelector('link[rel="canonical"]') || {}).href || '';
+    var here = window.location.href.split('#')[0];
+    var selfCanon = canonical
+        ? (canonical.split('#')[0] === here ? 'self-referencing ✅' : 'points elsewhere → ' + canonical)
+        : 'none';
+    var xhr = new XMLHttpRequest();
+    xhr.open('HEAD', window.location.href, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) return;
+        var xRobots = xhr.getResponseHeader('X-Robots-Tag') || '';
+        var noindex = /noindex/i.test(metaRobots) || /noindex/i.test(xRobots);
+        var verdict = noindex
+            ? '❌ NOT indexable (noindex directive found)'
+            : '✅ Indexable (no noindex directive found)';
+        if (!noindex && selfCanon.indexOf('points elsewhere') === 0) {
+            verdict = '⚠️ Indexable, but the canonical points to another URL — this page may be consolidated into that one.';
+        }
+        alert('Indexability Snapshot\n\n' + verdict + '\n\n'
+            + 'Meta robots: ' + (metaRobots || '(none)') + '\n'
+            + 'X-Robots-Tag: ' + (xRobots || '(none)') + '\n'
+            + 'Canonical: ' + selfCanon);
+    };
+    xhr.send();
+})();
+```
+
+#### 31. GSC URL Inspection
+
+Opens Google Search Console's URL Inspection tool for the exact current page.
+
+> Requires access to the matching property in Google Search Console.
+
+📄 [`bookmarklets/indexability/gsc-url-inspection.js`](bookmarklets/indexability/gsc-url-inspection.js)
+
+```javascript
+javascript:(function() {
+    window.open('https://search.google.com/search-console/inspect?resource_id=' + encodeURIComponent(window.location.origin) + '&id=' + encodeURIComponent(window.location.href));
+})();
+```
+
+#### 32. Open robots.txt
+
+Opens `/robots.txt` for the current domain.
+
+📄 [`bookmarklets/indexability/robots-txt.js`](bookmarklets/indexability/robots-txt.js)
+
+```javascript
+javascript:(function() {
+    window.open(window.location.origin + '/robots.txt');
+})();
+```
+
+#### 33. Open sitemap.xml
+
+Opens `/sitemap.xml` for the current domain.
+
+📄 [`bookmarklets/indexability/sitemap-xml.js`](bookmarklets/indexability/sitemap-xml.js)
+
+```javascript
+javascript:(function() {
+    window.open(window.location.origin + '/sitemap.xml');
+})();
+```
+
+#### 34. Open llms.txt
+
+Opens `/llms.txt` for the current domain — the emerging standard for guiding AI crawlers.
+
+📄 [`bookmarklets/indexability/llms-txt.js`](bookmarklets/indexability/llms-txt.js)
+
+```javascript
+javascript:(function() {
+    window.open(window.location.origin + '/llms.txt');
+})();
+```
+
+#### 35. Wayback Machine
+
+Opens the current URL's archive history on the Internet Archive.
+
+📄 [`bookmarklets/indexability/wayback-machine.js`](bookmarklets/indexability/wayback-machine.js)
+
+```javascript
+javascript:(function() {
+    window.open('https://web.archive.org/web/*/' + window.location.href);
+})();
+```
+
+---
+
+### 📈 Performance — Live Metrics
+
+Measure runtime performance directly in the page as it loads and as you interact.
+
+#### 36. Core Web Vitals Overlay
+
+Pins a live **LCP / CLS / INP** readout to the corner of the page, colour-rated (🟢 / 🟡 / 🔴) against Google's thresholds and measured with `PerformanceObserver`. Interact with the page to register INP; click the bookmark again to dismiss.
+
+📄 [`bookmarklets/performance-live/core-web-vitals-overlay.js`](bookmarklets/performance-live/core-web-vitals-overlay.js)
+
+```javascript
+javascript:(function() {
+    if (window.__cwvOverlay) {
+        window.__cwvOverlay.remove();
+        window.__cwvOverlay = null;
+        return;
+    }
+    var box = document.createElement('div');
+    window.__cwvOverlay = box;
+    box.style.cssText = 'position:fixed;bottom:16px;right:16px;z-index:2147483647;background:#1c1b22;color:#fff;font:13px/1.4 monospace;padding:12px 14px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.4);min-width:190px;';
+    var title = document.createElement('div');
+    title.textContent = 'Core Web Vitals (live)';
+    title.style.cssText = 'font-weight:bold;margin-bottom:6px;';
+    box.appendChild(title);
+    function row(label) {
+        var d = document.createElement('div');
+        d.textContent = label + ': measuring…';
+        box.appendChild(d);
+        return d;
+    }
+    var lcpEl = row('LCP'), clsEl = row('CLS'), inpEl = row('INP');
+    var close = document.createElement('div');
+    close.textContent = '✕ click to close';
+    close.style.cssText = 'margin-top:8px;cursor:pointer;opacity:.6;font-size:11px;';
+    close.onclick = function() {
+        box.remove();
+        window.__cwvOverlay = null;
+    };
+    box.appendChild(close);
+    document.body.appendChild(box);
+    function rate(v, good, poor) {
+        return v <= good ? '🟢' : (v <= poor ? '🟡' : '🔴');
+    }
+    try {
+        new PerformanceObserver(function(list) {
+            var es = list.getEntries();
+            var last = es[es.length - 1];
+            var v = Math.round(last.renderTime || last.loadTime || last.startTime);
+            lcpEl.textContent = 'LCP: ' + v + ' ms ' + rate(v, 2500, 4000);
+        }).observe({ type: 'largest-contentful-paint', buffered: true });
+    } catch (e) {
+        lcpEl.textContent = 'LCP: unsupported';
+    }
+    var cls = 0;
+    try {
+        new PerformanceObserver(function(list) {
+            list.getEntries().forEach(function(e) {
+                if (!e.hadRecentInput) cls += e.value;
+            });
+            clsEl.textContent = 'CLS: ' + cls.toFixed(3) + ' ' + rate(cls, 0.1, 0.25);
+        }).observe({ type: 'layout-shift', buffered: true });
+    } catch (e) {
+        clsEl.textContent = 'CLS: unsupported';
+    }
+    var maxInp = 0;
+    try {
+        new PerformanceObserver(function(list) {
+            list.getEntries().forEach(function(e) {
+                if (e.duration > maxInp) {
+                    maxInp = e.duration;
+                    inpEl.textContent = 'INP: ' + Math.round(maxInp) + ' ms ' + rate(maxInp, 200, 500);
+                }
+            });
+        }).observe({ type: 'event', durationThreshold: 16, buffered: true });
+        inpEl.textContent = 'INP: interact with the page…';
+    } catch (e) {
+        inpEl.textContent = 'INP: unsupported';
+    }
+})();
+```
+
+#### 37. Render-Blocking Resources
+
+Finds render-blocking CSS and synchronous scripts in the `<head>` and lists them in a Console table, with an alert summary.
+
+📄 [`bookmarklets/performance-live/render-blocking-resources.js`](bookmarklets/performance-live/render-blocking-resources.js)
+
+```javascript
+javascript:(function() {
+    var blocking = [];
+    document.querySelectorAll('head link[rel="stylesheet"]').forEach(function(l) {
+        var m = (l.media || '').toLowerCase();
+        if (!l.disabled && (m === '' || m === 'all' || m === 'screen')) {
+            blocking.push({ type: 'CSS', url: l.href });
+        }
+    });
+    document.querySelectorAll('head script[src]').forEach(function(s) {
+        if (!s.async && !s.defer && s.type !== 'module') {
+            blocking.push({ type: 'JS', url: s.src });
+        }
+    });
+    if (!blocking.length) {
+        alert('No obvious render-blocking resources found in <head>. 🟢');
+        return;
+    }
+    console.group('%cRender-blocking resources (' + blocking.length + ')', 'font-weight:bold;color:#c0392b;');
+    console.table(blocking);
+    console.groupEnd();
+    alert(blocking.length + ' render-blocking resource(s) in <head>.\nSee the Console (⌘/Ctrl + Shift + J) for the full list.');
 })();
 ```
 
